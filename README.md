@@ -1,4 +1,4 @@
 asynRecordProposal
 ==================
 
-A proposal for implementing asynchronous record processing in pvDatabase
+A proposal for implementing asynchronous record processing in pvDatabase.
