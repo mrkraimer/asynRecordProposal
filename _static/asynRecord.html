@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Proposal: Asynchronous PVRecord &#8212; asynRecordProposal 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Proposal for adding asynchronous record processing to PVDatabase" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Proposal for adding asynchronous record processing to PVDatabase"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">asynRecordProposal 0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="proposal-asynchronous-pvrecord">
+<h1>Proposal: Asynchronous PVRecord<a class="headerlink" href="#proposal-asynchronous-pvrecord" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pvrecord-processing">
+<h2>PVRecord processing<a class="headerlink" href="#pvrecord-processing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="background">
+<h3>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h3>
+<p>A V3 IOC has a set of DBRecords.
+Each DBRecord has record support and device support attached to it.
+The code that calls record support allows a record to be processed either synchronously or asynchronously.
+A combination of the record and device support decides if processing is synchronous or asynchronous.</p>
+</div>
+<div class="section" id="introduction-to-pvrecord-processing">
+<h3>Introduction to PVRecord processing<a class="headerlink" href="#introduction-to-pvrecord-processing" title="Permalink to this headline">¶</a></h3>
+<p>Currently the only process method for PVRecord is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">process</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>This method does not return until it is done,
+i. e. it is a synchronous method.</p>
+<p>What process does is determined by the support code attached to the record instance.
+It can be an action that completes quickly or may take a long time to complete.</p>
+<p>This proposal specifies additional process methods that support asynchronous record processing.
+It is up to the support code to decide if it should be a synchronous or asynchronous record.</p>
+</div>
+<div class="section" id="synchronous-processing">
+<h3>Synchronous Processing<a class="headerlink" href="#synchronous-processing" title="Permalink to this headline">¶</a></h3>
+<p>The following makes a record synchronous.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">boolean</span> <span class="n">isAsynRecord</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">false</span><span class="p">;}</span>
+<span class="n">void</span> <span class="n">process</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="asynchronous-processing">
+<h3>Asynchronous Processing<a class="headerlink" href="#asynchronous-processing" title="Permalink to this headline">¶</a></h3>
+<p>The following method makes a record asynchronous.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">boolean</span> <span class="n">isAsynRecord</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">true</span><span class="p">;}</span>
+</pre></div>
+</div>
+<div class="section" id="channelprocess">
+<h4>ChannelProcess<a class="headerlink" href="#channelprocess" title="Permalink to this headline">¶</a></h4>
+<p id="index-0">The following are the methods for channelProcess:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">process</span><span class="p">(</span>
+   <span class="n">ChannelProcess</span> <span class="n">channelProcess</span><span class="p">,</span>
+   <span class="n">ChannelProcessRequester</span> <span class="n">channelProcessRequester</span><span class="p">,</span>
+   <span class="n">boolean</span> <span class="n">block</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>where</p>
+<dl class="docutils">
+<dt>channelProcess</dt>
+<dd>The channelProcess that is issuing the process request.</dd>
+<dt>channelProcessRequester</dt>
+<dd>The channelProcessRequester that called channelProcess.</dd>
+<dt>block</dt>
+<dd><p class="first"><em>true</em> means to call the requester only after process completes.</p>
+<p class="last"><em>false</em> means to call the requester immediately.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="channelget">
+<h4>ChannelGet<a class="headerlink" href="#channelget" title="Permalink to this headline">¶</a></h4>
+<p id="index-1">The following are the methods for channelGet:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">process</span><span class="p">(</span>
+   <span class="n">ChannelGet</span> <span class="n">channelGet</span><span class="p">,</span>
+   <span class="n">ChannelGetRequester</span> <span class="n">channelGetRequester</span><span class="p">,</span>
+   <span class="n">boolean</span> <span class="n">block</span><span class="p">,</span>
+   <span class="n">PVCopy</span> <span class="n">pvCopy</span><span class="p">,</span>
+   <span class="n">PVStructure</span> <span class="n">pvData</span><span class="p">,</span>
+   <span class="n">BitSet</span> <span class="n">bitSet</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>where</p>
+<dl class="docutils">
+<dt>channelGet</dt>
+<dd>The channelGet that is issuing the process request.</dd>
+<dt>channelGetRequester</dt>
+<dd>The channelGetRequester that called channelGet.</dd>
+<dt>block</dt>
+<dd><p class="first"><em>true</em> means to call the requester only after process completes.</p>
+<p class="last"><em>false</em> means to call the requester immediately.</p>
+</dd>
+<dt>pvCopy</dt>
+<dd>The pvCopy instance for the client.</dd>
+<dt>pvData</dt>
+<dd>The client pvStructure</dd>
+<dt>bitSet</dt>
+<dd>The bitSet that shows any data changes made to pvData during record processing.</dd>
+</dl>
+</div>
+<div class="section" id="channelput">
+<h4>ChannelPut<a class="headerlink" href="#channelput" title="Permalink to this headline">¶</a></h4>
+<p id="index-2">The following are the methods for channelPut:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">process</span><span class="p">(</span>
+   <span class="n">ChannelPut</span> <span class="n">channelPut</span><span class="p">,</span>
+   <span class="n">ChannelPutRequester</span> <span class="n">channelPutRequester</span><span class="p">,</span>
+   <span class="n">boolean</span> <span class="n">block</span><span class="p">,</span>
+   <span class="n">PVCopy</span> <span class="n">pvCopy</span><span class="p">,</span>
+   <span class="n">PVStructure</span> <span class="n">pvData</span><span class="p">,</span>
+   <span class="n">BitSet</span> <span class="n">bitSet</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>where</p>
+<dl class="docutils">
+<dt>channelPut</dt>
+<dd>The channelPut that is issuing the process request.</dd>
+<dt>channelPutRequester</dt>
+<dd>The channelPutRequester that called channelPut.</dd>
+<dt>block</dt>
+<dd><p class="first"><em>true</em> means to call the requester only after process completes.</p>
+<p class="last"><em>false</em> means to call the requester immediately.</p>
+</dd>
+<dt>pvCopy</dt>
+<dd>The pvCopy instance for the client.</dd>
+<dt>pvData</dt>
+<dd>The client pvStructure</dd>
+<dt>bitSet</dt>
+<dd>The bitSet that shows any data changes made to pvData during record processing.</dd>
+</dl>
+</div>
+<div class="section" id="channelputget">
+<h4>ChannelPutGet<a class="headerlink" href="#channelputget" title="Permalink to this headline">¶</a></h4>
+<p id="index-3">The following are the methods for channelPutGet:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">process</span><span class="p">(</span>
+   <span class="n">ChannelPutGet</span> <span class="n">channelPutGet</span><span class="p">,</span>
+   <span class="n">ChannelPutGetRequester</span> <span class="n">channelPutGetRequester</span><span class="p">,</span>
+   <span class="n">boolean</span> <span class="n">block</span><span class="p">,</span>
+   <span class="n">PVCopy</span> <span class="n">pvPutCopy</span><span class="p">,</span>
+   <span class="n">PVStructure</span> <span class="n">pvPutStructure</span><span class="p">,</span>
+   <span class="n">BitSet</span> <span class="n">putBitSet</span><span class="p">,</span>
+   <span class="n">PVCopy</span> <span class="n">pvGetCopy</span><span class="p">,</span>
+   <span class="n">PVStructure</span> <span class="n">pvGetStructure</span><span class="p">,</span>
+   <span class="n">BitSet</span> <span class="n">getBitSet</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>where</p>
+<dl class="docutils">
+<dt>channelPutGet</dt>
+<dd>The channelPutGet that is issuing the process request.</dd>
+<dt>channelPutGetRequester</dt>
+<dd>The channelPutGetRequester that called channelPutGet.</dd>
+<dt>block</dt>
+<dd><p class="first"><em>true</em> means to call the requester only after process completes.</p>
+<p class="last"><em>false</em> means to call the requester immediately.</p>
+</dd>
+<dt>pvPutCopy</dt>
+<dd>The pvCopy instance for the client.</dd>
+<dt>pvPutStructure</dt>
+<dd>The data the client sent.</dd>
+<dt>putBitSet</dt>
+<dd>The bitSet that shows data changes the client made to pvPutStructure.</dd>
+<dt>pvGetCopy</dt>
+<dd>The pvCopy instance for the client.</dd>
+<dt>pvGetStructure</dt>
+<dd>The data returned to the client.</dd>
+<dt>getBitSet</dt>
+<dd>The bitSet that shows any data changes made to pvGetStructure during record processing.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="pvcopy-record-options">
+<h3>PVCopy: record options<a class="headerlink" href="#pvcopy-record-options" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="block">
+<h4>block<a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h4>
+<p>This is used for a channel request that results in the provider issung a
+process request.
+It specifies if a request should block until processing completes .</p>
+<p>For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pvput</span> <span class="o">-</span><span class="n">r</span> <span class="s2">&quot;record[block=true]field(value)&quot;</span> <span class="n">someAsynChannel</span> <span class="n">Acquire</span>
+</pre></div>
+</div>
+<p>This option is honored by the following:</p>
+<dl class="docutils">
+<dt>pvDatabase</dt>
+<dd>For channelProcess, channelGet, channelPut, and channelPutGet</dd>
+<dt>pcaSrv</dt>
+<dd>For channelProcess, channelGet, and channelPut</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="example-busy-record">
+<h3>Example: Busy Record<a class="headerlink" href="#example-busy-record" title="Permalink to this headline">¶</a></h3>
+<p>The following example allows a client to set the record busy and wait until the record is done.</p>
+<p>For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pvput</span> <span class="o">-</span><span class="n">r</span> <span class="s2">&quot;record[block=true]field(value)&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="mi">100000000</span> <span class="n">PVRBusy</span> <span class="n">Acquire</span>
+</pre></div>
+</div>
+<p>Another client can set it done:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pvput</span> <span class="n">PVRBusy</span> <span class="n">Done</span>
+</pre></div>
+</div>
+<p>The current code only allows one client at a time to set the record busy and wait for completion.</p>
+<p>See &lt;<a class="reference external" href="https://github.com/mrkraimer/exampleJava/blob/master/database/src/org/epics/exampleJava/exampleDatabase/ExampleBusyRecord.java">https://github.com/mrkraimer/exampleJava/blob/master/database/src/org/epics/exampleJava/exampleDatabase/ExampleBusyRecord.java</a>&gt;</p>
+</div>
+<div class="section" id="implementation-of-proposal">
+<h3>Implementation of Proposal<a class="headerlink" href="#implementation-of-proposal" title="Permalink to this headline">¶</a></h3>
+<p>Java code for the proposed implementation is available at:
+&lt;<a class="reference external" href="https://github.com/mrkraimer/pvDatabaseJava/tree/asynRecord">https://github.com/mrkraimer/pvDatabaseJava/tree/asynRecord</a>&gt;</p>
+<p>The example busy record is available at:
+&lt;<a class="reference external" href="https://github.com/mrkraimer/exampleJava/blob/master/database/src/org/epics/exampleJava/exampleDatabase/ExampleBusyRecord.java">https://github.com/mrkraimer/exampleJava/blob/master/database/src/org/epics/exampleJava/exampleDatabase/ExampleBusyRecord.java</a>&gt;
+&lt;/p&gt;</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Proposal: Asynchronous PVRecord</a><ul>
+<li><a class="reference internal" href="#pvrecord-processing">PVRecord processing</a><ul>
+<li><a class="reference internal" href="#background">Background</a></li>
+<li><a class="reference internal" href="#introduction-to-pvrecord-processing">Introduction to PVRecord processing</a></li>
+<li><a class="reference internal" href="#synchronous-processing">Synchronous Processing</a></li>
+<li><a class="reference internal" href="#asynchronous-processing">Asynchronous Processing</a><ul>
+<li><a class="reference internal" href="#channelprocess">ChannelProcess</a></li>
+<li><a class="reference internal" href="#channelget">ChannelGet</a></li>
+<li><a class="reference internal" href="#channelput">ChannelPut</a></li>
+<li><a class="reference internal" href="#channelputget">ChannelPutGet</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pvcopy-record-options">PVCopy: record options</a><ul>
+<li><a class="reference internal" href="#block">block</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#example-busy-record">Example: Busy Record</a></li>
+<li><a class="reference internal" href="#implementation-of-proposal">Implementation of Proposal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Proposal for adding asynchronous record processing to PVDatabase</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/asynRecord.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Proposal for adding asynchronous record processing to PVDatabase"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">asynRecordProposal 0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Marty Kraimer.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>
