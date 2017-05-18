@@ -67,10 +67,10 @@ The following are the methods for channelProcess: ::
 where
 
 channelProcess
-    The channelProcess that is issuing the process request.
+    The ChannelProcess that is issuing the process request.
 
 channelProcessRequester
-    The channelProcessRequester that called channelProcess.
+    The ChannelProcessRequester that called channelProcess.
 
 block
     *true* means to call the requester only after process completes.
@@ -97,10 +97,10 @@ The following are the methods for channelGet: ::
 where
 
 channelGet
-    The channelGet that is issuing the process request.
+    The ChannelGet that is issuing the process request.
 
 channelGetRequester
-    The channelGetRequester that called channelGet.
+    The ChannelGetRequester that called channelGet.
 
 block
     *true* means to call the requester only after process completes.
@@ -108,13 +108,13 @@ block
     *false* means to call the requester immediately.
 
 pvCopy
-    The pvCopy instance for the client.
+    The PVCopy instance for the client.
 
 pvData
-    The client pvStructure
+    The client PVStructure
 
 bitSet
-    The bitSet that shows any data changes made to pvData during record processing.
+    The BitSet that shows any data changes made to pvData during record processing.
 
 
 ----------
@@ -136,10 +136,10 @@ The following are the methods for channelPut: ::
 where
 
 channelPut
-    The channelPut that is issuing the process request.
+    The ChannelPut that is issuing the process request.
 
 channelPutRequester
-    The channelPutRequester that called channelPut.
+    The ChannelPutRequester that called channelPut.
 
 block
     *true* means to call the requester only after process completes.
@@ -147,13 +147,13 @@ block
     *false* means to call the requester immediately.
 
 pvCopy
-    The pvCopy instance for the client.
+    The PVCopy instance for the client.
 
 pvData
-    The client pvStructure
+    The client PVStructure
 
 bitSet
-    The bitSet that shows any data changes made to pvData during record processing.
+    The BitSet that shows any data changes made to pvData during record processing.
 
 
 
@@ -182,10 +182,10 @@ The following are the methods for channelPutGet: ::
 where
 
 channelPutGet
-    The channelPutGet that is issuing the process request.
+    The ChannelPutGet that is issuing the process request.
 
 channelPutGetRequester
-    The channelPutGetRequester that called channelPutGet.
+    The ChannelPutGetRequester that called channelPutGet.
 
 block
     *true* means to call the requester only after process completes.
@@ -193,22 +193,22 @@ block
     *false* means to call the requester immediately.
 
 pvPutCopy
-    The pvCopy instance for the client.
+    The PVCopy instance for the pvPutStructure.
 
 pvPutStructure
     The data the client sent.
 
 putBitSet
-    The bitSet that shows data changes the client made to pvPutStructure.
+    The BitSet that shows data changes the client made to pvPutStructure.
 
 pvGetCopy
-    The pvCopy instance for the client.
+    The PVCopy instance for the pvGetStructure.
 
 pvGetStructure
     The data returned to the client.
 
 getBitSet
-    The bitSet that shows any data changes made to pvGetStructure during record processing.
+    The BitSet that shows any data changes made to pvGetStructure during record processing.
 
 ======================
 PVCopy: record options

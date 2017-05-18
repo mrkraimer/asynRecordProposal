@@ -97,9 +97,9 @@ It is up to the support code to decide if it should be a synchronous or asynchro
 <p>where</p>
 <dl class="docutils">
 <dt>channelProcess</dt>
-<dd>The channelProcess that is issuing the process request.</dd>
+<dd>The ChannelProcess that is issuing the process request.</dd>
 <dt>channelProcessRequester</dt>
-<dd>The channelProcessRequester that called channelProcess.</dd>
+<dd>The ChannelProcessRequester that called channelProcess.</dd>
 <dt>block</dt>
 <dd><p class="first"><em>true</em> means to call the requester only after process completes.</p>
 <p class="last"><em>false</em> means to call the requester immediately.</p>
@@ -121,19 +121,19 @@ It is up to the support code to decide if it should be a synchronous or asynchro
 <p>where</p>
 <dl class="docutils">
 <dt>channelGet</dt>
-<dd>The channelGet that is issuing the process request.</dd>
+<dd>The ChannelGet that is issuing the process request.</dd>
 <dt>channelGetRequester</dt>
-<dd>The channelGetRequester that called channelGet.</dd>
+<dd>The ChannelGetRequester that called channelGet.</dd>
 <dt>block</dt>
 <dd><p class="first"><em>true</em> means to call the requester only after process completes.</p>
 <p class="last"><em>false</em> means to call the requester immediately.</p>
 </dd>
 <dt>pvCopy</dt>
-<dd>The pvCopy instance for the client.</dd>
+<dd>The PVCopy instance for the client.</dd>
 <dt>pvData</dt>
-<dd>The client pvStructure</dd>
+<dd>The client PVStructure</dd>
 <dt>bitSet</dt>
-<dd>The bitSet that shows any data changes made to pvData during record processing.</dd>
+<dd>The BitSet that shows any data changes made to pvData during record processing.</dd>
 </dl>
 </div>
 <div class="section" id="channelput">
@@ -151,19 +151,19 @@ It is up to the support code to decide if it should be a synchronous or asynchro
 <p>where</p>
 <dl class="docutils">
 <dt>channelPut</dt>
-<dd>The channelPut that is issuing the process request.</dd>
+<dd>The ChannelPut that is issuing the process request.</dd>
 <dt>channelPutRequester</dt>
-<dd>The channelPutRequester that called channelPut.</dd>
+<dd>The ChannelPutRequester that called channelPut.</dd>
 <dt>block</dt>
 <dd><p class="first"><em>true</em> means to call the requester only after process completes.</p>
 <p class="last"><em>false</em> means to call the requester immediately.</p>
 </dd>
 <dt>pvCopy</dt>
-<dd>The pvCopy instance for the client.</dd>
+<dd>The PVCopy instance for the client.</dd>
 <dt>pvData</dt>
-<dd>The client pvStructure</dd>
+<dd>The client PVStructure</dd>
 <dt>bitSet</dt>
-<dd>The bitSet that shows any data changes made to pvData during record processing.</dd>
+<dd>The BitSet that shows any data changes made to pvData during record processing.</dd>
 </dl>
 </div>
 <div class="section" id="channelputget">
@@ -184,25 +184,25 @@ It is up to the support code to decide if it should be a synchronous or asynchro
 <p>where</p>
 <dl class="docutils">
 <dt>channelPutGet</dt>
-<dd>The channelPutGet that is issuing the process request.</dd>
+<dd>The ChannelPutGet that is issuing the process request.</dd>
 <dt>channelPutGetRequester</dt>
-<dd>The channelPutGetRequester that called channelPutGet.</dd>
+<dd>The ChannelPutGetRequester that called channelPutGet.</dd>
 <dt>block</dt>
 <dd><p class="first"><em>true</em> means to call the requester only after process completes.</p>
 <p class="last"><em>false</em> means to call the requester immediately.</p>
 </dd>
 <dt>pvPutCopy</dt>
-<dd>The pvCopy instance for the client.</dd>
+<dd>The PVCopy instance for the pvPutStructure.</dd>
 <dt>pvPutStructure</dt>
 <dd>The data the client sent.</dd>
 <dt>putBitSet</dt>
-<dd>The bitSet that shows data changes the client made to pvPutStructure.</dd>
+<dd>The BitSet that shows data changes the client made to pvPutStructure.</dd>
 <dt>pvGetCopy</dt>
-<dd>The pvCopy instance for the client.</dd>
+<dd>The PVCopy instance for the pvGetStructure.</dd>
 <dt>pvGetStructure</dt>
 <dd>The data returned to the client.</dd>
 <dt>getBitSet</dt>
-<dd>The bitSet that shows any data changes made to pvGetStructure during record processing.</dd>
+<dd>The BitSet that shows any data changes made to pvGetStructure during record processing.</dd>
 </dl>
 </div>
 </div>
