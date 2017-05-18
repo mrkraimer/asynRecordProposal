@@ -260,9 +260,19 @@ See <https://github.com/mrkraimer/exampleJava/blob/master/database/src/org/epics
 Implementation of Proposal
 ==========================
 
+----------
+PVDatabase
+----------
+
 Java code for the proposed implementation is available at:
+
 <https://github.com/mrkraimer/pvDatabaseJava/tree/asynRecord>
 
+
+----------
+BusyRecord
+----------
+
 The example busy record is available at:
+
 <https://github.com/mrkraimer/exampleJava/blob/master/database/src/org/epics/exampleJava/exampleDatabase/ExampleBusyRecord.java>
-</p>
