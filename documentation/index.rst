@@ -1,20 +1,18 @@
-.. asynRecordProposal documentation master file, created by
-   sphinx-quickstart on 2017.05.16
+.. Proposal For asynchronous PVRecord documentation master file, created by
+   sphinx-quickstart on Mon May 22 14:09:12 2017.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-
-Proposal for adding asynchronous record processing to PVDatabase
-================================================================
-
-
-Source can be found at https://github.com/mrkraimer/asynRecordProposal
-
-Contents:
+Welcome to Proposal For asynchronous PVRecord's documentation!
+==============================================================
 
 .. toctree::
    :maxdepth: 2
+   :caption: Contents:
 
    asynRecord
-   
+
+
 
 Indices and tables
 ==================
@@ -22,4 +20,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
